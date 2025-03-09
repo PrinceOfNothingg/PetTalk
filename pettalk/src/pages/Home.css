@@ -1,0 +1,19 @@
+.home-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.image-container {
+  width: 60%;
+  background: url('/images/sunless.png') no-repeat center center;
+  background-size: cover;
+}
+
+.chatbox {
+  width: 40%;
+  background-color: white;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

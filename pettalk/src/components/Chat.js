@@ -1,9 +1,6 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export default function Chat() {
-  const router = useRouter();
-  const { pet } = router.query;
   const [userInput, setUserInput] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
 
@@ -26,9 +23,8 @@ export default function Chat() {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4"></h2>
-      <div className="chat-history mb-4">
+    <div className="w-full">
+      <div className="flex-1 overflow-y-auto mb-4 max-h-60 bg-transparent">
         {chatHistory.map((chat, index) => (
           <div key={index} className="mb-2">
             <strong>{chat.user}:</strong> {chat.message}
@@ -39,7 +35,7 @@ export default function Chat() {
         type="text"
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
-        className="border p-2 rounded w-full mb-2"
+        className="border p-2 rounded w-full mb-2 bg-transparent text-white"
         placeholder="Type your message..."
       />
       <button onClick={handleSendMessage} className="bg-blue-500 text-white p-2 rounded w-full">
