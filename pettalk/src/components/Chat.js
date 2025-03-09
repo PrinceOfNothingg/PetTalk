@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Chat() {
+export default function Chat({ setVideo }) {
   const [userInput, setUserInput] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -11,6 +11,7 @@ export default function Chat() {
       setChatHistory([...chatHistory, newMessage]);
       setUserInput('');
       setIsTyping(true);
+      setVideo('thinking.mp4'); //Default video
 
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -22,6 +23,15 @@ export default function Chat() {
       setTimeout(() => {
         setChatHistory([...chatHistory, newMessage, { user: 'Sunless', message: data.response }]);
         setIsTyping(false);
+
+        //Change video based on feelings
+        if (data.response.includes('happy')) {
+          setVideo('happy.mp4');
+        } else if (data.response.includes('sad')) {
+          setVideo('sad.mp4');
+        } else {
+          setVideo('thinking.mp4');
+        }
       }, 1000);
     }
   };
