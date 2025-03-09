@@ -29,6 +29,8 @@ export default function Chat({ setVideo }) {
           setVideo('happy.mp4');
         } else if (data.response.includes('sad')) {
           setVideo('sad.mp4');
+        } else if (data.response.includes('funny')) {
+            setVideo('laugh.mp4');
         } else {
           setVideo('thinking.mp4');
         }
