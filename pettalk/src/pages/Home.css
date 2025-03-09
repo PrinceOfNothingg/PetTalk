@@ -4,16 +4,92 @@
 }
 
 .image-container {
-  width: 60%;
+  width: 66%;
   background: url('/images/sunless.png') no-repeat center center;
   background-size: cover;
 }
 
 .chatbox {
-  width: 40%;
+  width: 33%;
   background-color: white;
-  padding: 16px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.chat-container {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  background-color: #2d2d2d;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #1a1a1a;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.chat-history {
+  padding: 10px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+.chat-bubble {
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.chat-bubble.user {
+  background-color: #007bff;
+  align-self: flex-end;
+}
+
+.chat-bubble.sunless {
+  background-color: #444;
+  align-self: flex-start;
+}
+
+.typing-indicator {
+  font-style: italic;
+  color: #ccc;
+}
+
+.chat-input {
+  display: flex;
+  padding: 10px;
+  background-color: #1a1a1a;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px 0 0 5px;
+  background-color: #333;
+  color: white;
+}
+
+.chat-input button {
+  padding: 10px;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
 }

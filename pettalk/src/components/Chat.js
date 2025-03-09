@@ -3,44 +3,52 @@ import { useState } from 'react';
 export default function Chat() {
   const [userInput, setUserInput] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
 
   const handleSendMessage = async () => {
     if (userInput.trim() !== '') {
-      setChatHistory([...chatHistory, { user: 'You', message: userInput }]);
+      const newMessage = { user: 'You', message: userInput };
+      setChatHistory([...chatHistory, newMessage]);
       setUserInput('');
+      setIsTyping(true);
 
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userInput }),
       });
 
       const data = await response.json();
-      setChatHistory([...chatHistory, { user: 'You', message: userInput }, { user: 'Sunless', message: data.response }]);
+      setTimeout(() => {
+        setChatHistory([...chatHistory, newMessage, { user: 'Sunless', message: data.response }]);
+        setIsTyping(false);
+      }, 1000);
     }
   };
 
   return (
-    <div className="w-full">
-      <div className="flex-1 overflow-y-auto mb-4 max-h-60 bg-transparent">
+    <div className="chat-container">
+      <div className="chat-header">
+        <img src="/images/sunlessavatar.png" alt="Sunless" className="avatar" />
+        <h1>Chat with Sunless</h1>
+      </div>
+      <div className="chat-history">
         {chatHistory.map((chat, index) => (
-          <div key={index} className="mb-2">
+          <div key={index} className={`chat-bubble ${chat.user === 'You' ? 'user' : 'sunless'}`}>
             <strong>{chat.user}:</strong> {chat.message}
           </div>
         ))}
+        {isTyping && <div className="typing-indicator">Sunless is thinking...</div>}
       </div>
-      <input
-        type="text"
-        value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
-        className="border p-2 rounded w-full mb-2 bg-transparent text-white"
-        placeholder="Type your message..."
-      />
-      <button onClick={handleSendMessage} className="bg-blue-500 text-white p-2 rounded w-full">
-        Send
-      </button>
+      <div className="chat-input">
+        <input
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          placeholder="Type your message..."
+        />
+        <button onClick={handleSendMessage}>Send</button>
+      </div>
     </div>
   );
 }
