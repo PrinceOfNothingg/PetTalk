@@ -26,13 +26,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: node -v
+    - name: Install dependencies
+      run: npm ci
       working-directory: pettalk
-    - run: npm ci
+    - name: List installed packages
+      run: npm ls
       working-directory: pettalk
-    - run: npm ls
+    - name: Build the project
+      run: npm run build --if-present
       working-directory: pettalk
-    - run: npm run build --if-present
-      working-directory: pettalk
-    - run: npm test
+    - name: Run tests
+      run: npm test
       working-directory: pettalk
