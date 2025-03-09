@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import Sentiment from 'sentiment';
+
+const sentiment = new Sentiment();
 
 export default function Chat({ setVideo }) {
   const [userInput, setUserInput] = useState('');
@@ -11,7 +14,7 @@ export default function Chat({ setVideo }) {
       setChatHistory([...chatHistory, newMessage]);
       setUserInput('');
       setIsTyping(true);
-      setVideo('thinking.mp4'); //Default video
+      setVideo('sleep.mp4'); // Default thinking video
 
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -24,15 +27,21 @@ export default function Chat({ setVideo }) {
         setChatHistory([...chatHistory, newMessage, { user: 'Sunless', message: data.response }]);
         setIsTyping(false);
 
-        //Change video based on feelings
-        if (data.response.includes('happy')) {
-          setVideo('happy.mp4');
-        } else if (data.response.includes('sad')) {
+        // Analyze sentiment of the response
+        const sentimentResult = sentiment.analyze(data.response);
+        const sentimentScore = sentimentResult.score;
+
+        // Change video based on sentiment score
+        if (sentimentScore > 2) {
+          setVideo('laugh.mp4');
+        } else if (sentimentScore < -2) {
           setVideo('sad.mp4');
-        } else if (data.response.includes('funny')) {
-            setVideo('laugh.mp4');
+        } else if (sentimentScore > 0) {
+          setVideo('default.mp4');
+        } else if (sentimentScore < 0) {
+          setVideo('bored.mp4');
         } else {
-          setVideo('thinking.mp4');
+          setVideo('default.mp4');
         }
       }, 1000);
     }

@@ -3,7 +3,7 @@ import './Home.css';
 import Chat from '../components/Chat';
 
 export default function Home() {
-  const [video, setVideo] = useState('default.mp4');
+  const [video, setVideo] = useState('sleep.mp4');
 
   return (
     <div className="home-container">
