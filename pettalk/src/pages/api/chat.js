@@ -1,11 +1,18 @@
 import { OpenAI } from 'openai';
 import { LanguageServiceClient } from '@google-cloud/language';
+import fs from 'fs';
+import path from 'path';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const client = new LanguageServiceClient();
+const credentialsPath = path.join('/tmp', 'google-credentials.json');
+fs.writeFileSync(credentialsPath, process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+
+const client = new LanguageServiceClient({
+  keyFilename: credentialsPath,
+});
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
