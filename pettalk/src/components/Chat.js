@@ -44,6 +44,12 @@ export default function Chat({ setVideo }) {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
+
   return (
     <div className="chat-container">
       <div className="chat-header">
@@ -63,6 +69,7 @@ export default function Chat({ setVideo }) {
           type="text"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Type your message..."
         />
         <button onClick={handleSendMessage}>Send</button>
