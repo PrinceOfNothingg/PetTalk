@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+require('dotenv').config();
 
-const nextConfig: NextConfig = {
-  /* config options here */
+module.exports = {
+  env: {
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    GOOGLE_APPLICATION_CREDENTIALS: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  },
 };
-
-export default nextConfig;

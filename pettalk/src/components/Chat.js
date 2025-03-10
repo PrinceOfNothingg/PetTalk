@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import Sentiment from 'sentiment';
-
-const sentiment = new Sentiment();
 
 export default function Chat({ setVideo }) {
   const [userInput, setUserInput] = useState('');
@@ -27,18 +24,18 @@ export default function Chat({ setVideo }) {
         setChatHistory([...chatHistory, newMessage, { user: 'Sunless', message: data.response }]);
         setIsTyping(false);
 
-        // Analyze sentiment of the response
-        const sentimentResult = sentiment.analyze(data.response);
-        const sentimentScore = sentimentResult.score;
+        // Log sentiment analysis results to the console
+        console.log('Sentiment Analysis Result:', data.sentiment);
 
         // Change video based on sentiment score
-        if (sentimentScore > 2) {
+        const sentimentScore = data.sentiment;
+        if (sentimentScore > 0.5 && sentimentScore <= 1) {
           setVideo('laugh.mp4');
-        } else if (sentimentScore < -2) {
+        } else if (sentimentScore < -0.5 && sentimentScore >= -1) {
           setVideo('sad.mp4');
-        } else if (sentimentScore > 0) {
+        } else if (sentimentScore > 0 && sentimentScore <= 0.5) {
           setVideo('default.mp4');
-        } else if (sentimentScore < 0) {
+        } else if (sentimentScore < 0 && sentimentScore >= -0.5) {
           setVideo('bored.mp4');
         } else {
           setVideo('default.mp4');
