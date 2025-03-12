@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <div className="home-container">
       <div className="video-container">
-        <video id="cat-video" src={`/videos/${currentVideo}`} autoPlay loop muted />
+        <video id="cat-video" src={`/videos/${currentVideo}`} autoPlay muted />
       </div>
       <div className="chatbox">
         <Chat setVideo={setVideo} />

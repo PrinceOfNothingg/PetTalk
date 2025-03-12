@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Chat({ setVideo }) {
   const [userInput, setUserInput] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    // Set the initial video to default.mp4
+    setVideo('default.mp4');
+  }, [setVideo]);
 
   const handleSendMessage = async () => {
     if (userInput.trim() !== '') {
@@ -29,16 +35,24 @@ export default function Chat({ setVideo }) {
 
         // Change video based on sentiment score
         const sentimentScore = data.sentiment;
-        if (sentimentScore > 0.5 && sentimentScore <= 1) {
-          setVideo('laugh.mp4');
-        } else if (sentimentScore < -0.5 && sentimentScore >= -1) {
-          setVideo('sad.mp4');
-        } else if (sentimentScore > 0 && sentimentScore <= 0.5) {
-          setVideo('default.mp4');
-        } else if (sentimentScore < 0 && sentimentScore >= -0.5) {
-          setVideo('bored.mp4');
-        } else {
-          setVideo('default.mp4');
+        let videoToPlay = 'default.mp4';
+        if (sentimentScore > 0.5) {
+          videoToPlay = 'laugh.mp4';
+        } else if (sentimentScore < -0.5) {
+          videoToPlay = 'sad.mp4';
+        } else if (sentimentScore > 0) {
+          videoToPlay = 'default.mp4';
+        } else if (sentimentScore < 0) {
+          videoToPlay = 'bored.mp4';
+        }
+
+        setVideo(videoToPlay);
+
+        // Revert to default.mp4 after the video ends
+        if (videoRef.current) {
+          videoRef.current.onended = () => {
+            setVideo('default.mp4');
+          };
         }
       }, 1000);
     }
